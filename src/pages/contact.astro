@@ -1,0 +1,211 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_TITLE } from '../consts';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={`Contact · ${SITE_TITLE}`} description="Get in touch about AI automation for your business." />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<div class="page-header">
+				<p class="page-label">// CONTACT</p>
+				<h1>Let's talk.</h1>
+				<p class="page-desc">
+					If you're a solopreneur, coach, or owner-operated business wondering what AI automation
+					could actually do for your operation, send me a note. No pitch decks, no
+					discovery call scripts — just a straight conversation.
+				</p>
+			</div>
+
+			<div class="contact-grid">
+				<div class="contact-form-wrap">
+					<form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="contact-form">
+						<input type="hidden" name="form-name" value="contact" />
+						<p style="display:none;">
+							<label>Don't fill this out: <input name="bot-field" /></label>
+						</p>
+
+						<div class="field-group">
+							<label for="name">Name</label>
+							<input type="text" id="name" name="name" placeholder="Your name" required />
+						</div>
+
+						<div class="field-group">
+							<label for="email">Email</label>
+							<input type="email" id="email" name="email" placeholder="your@email.com" required />
+						</div>
+
+						<div class="field-group">
+							<label for="message">What's going on?</label>
+							<textarea id="message" name="message" rows="5" placeholder="Tell me what you're working on or what's eating your time." required></textarea>
+						</div>
+
+						<button type="submit" class="btn btn-primary">Send it</button>
+					</form>
+				</div>
+
+				<div class="contact-aside">
+					<div class="aside-block">
+						<p class="aside-label">// RESPONSE TIME</p>
+						<p>I check email once a day. You'll hear back within 24 hours, usually faster.</p>
+					</div>
+					<div class="aside-block">
+						<p class="aside-label">// GOOD FIT FOR</p>
+						<p>Solopreneurs, coaches, and owner-operated businesses who want to automate repetitive work, clean up their content process, or figure out where AI actually makes sense in their operation.</p>
+					</div>
+					<div class="aside-block">
+						<p class="aside-label">// EMAIL</p>
+						<!-- Update this once Namecheap forwarding is set up -->
+						<a href="mailto:brian@brianbrenzel.com">brian@brianbrenzel.com</a>
+					</div>
+				</div>
+			</div>
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+	.page-header {
+		margin-bottom: 3em;
+	}
+
+	.page-label {
+		font-family: ui-monospace, 'Cascadia Code', 'Fira Mono', monospace;
+		font-size: 0.78em;
+		letter-spacing: 0.1em;
+		color: var(--turquoise);
+		margin: 0 0 0.75em 0;
+	}
+
+	.page-header h1 {
+		font-size: 2.4em;
+		margin: 0 0 0.5em 0;
+	}
+
+	.page-desc {
+		color: var(--silver);
+		font-size: 0.95em;
+		max-width: 520px;
+		margin: 0;
+		line-height: 1.75;
+	}
+
+	.contact-grid {
+		display: grid;
+		grid-template-columns: 1fr 320px;
+		gap: 4em;
+		align-items: start;
+	}
+
+	/* ── Form ──────────────────────────────────── */
+
+	.contact-form {
+		display: flex;
+		flex-direction: column;
+		gap: 1.25em;
+	}
+
+	.field-group {
+		display: flex;
+		flex-direction: column;
+		gap: 0.4em;
+	}
+
+	.field-group label {
+		font-size: 0.85em;
+		font-weight: 600;
+		color: var(--text-muted);
+	}
+
+	.field-group input,
+	.field-group textarea {
+		background-color: #FFFFFF;
+		border: 1px solid var(--bg-border);
+		color: var(--text);
+		border-radius: 4px;
+		padding: 0.65em 0.9em;
+		font-size: 1em;
+		font-family: inherit;
+		width: 100%;
+		box-sizing: border-box;
+		transition: border-color 0.15s ease;
+	}
+
+	.field-group input:focus,
+	.field-group textarea:focus {
+		outline: none;
+		border-color: var(--turquoise);
+		box-shadow: 0 0 0 3px var(--turquoise-glow);
+	}
+
+	.field-group textarea {
+		resize: vertical;
+		line-height: 1.6;
+	}
+
+	.btn-primary {
+		align-self: flex-start;
+		background-color: var(--turquoise);
+		color: #FFFFFF;
+		padding: 0.7em 1.8em;
+		font-size: 0.95em;
+		font-weight: 600;
+		border: none;
+		border-radius: 4px;
+		cursor: pointer;
+		transition: background-color 0.15s ease;
+	}
+	.btn-primary:hover {
+		background-color: var(--turquoise-dark);
+	}
+
+	/* ── Aside ─────────────────────────────────── */
+
+	.contact-aside {
+		display: flex;
+		flex-direction: column;
+		gap: 2em;
+		padding-top: 0.25em;
+	}
+
+	.aside-block {
+		border-left: 2px solid var(--bg-border);
+		padding-left: 1.25em;
+	}
+
+	.aside-label {
+		font-family: ui-monospace, 'Cascadia Code', 'Fira Mono', monospace;
+		font-size: 0.75em;
+		letter-spacing: 0.1em;
+		color: var(--terracotta-light);
+		margin: 0 0 0.5em 0;
+	}
+
+	.aside-block p {
+		font-size: 0.9em;
+		color: var(--silver-light);
+		margin: 0;
+		line-height: 1.65;
+	}
+
+	.aside-block a {
+		font-size: 0.9em;
+		color: var(--turquoise);
+	}
+
+	/* ── Responsive ────────────────────────────── */
+
+	@media (max-width: 720px) {
+		.contact-grid {
+			grid-template-columns: 1fr;
+			gap: 2.5em;
+		}
+	}
+</style>

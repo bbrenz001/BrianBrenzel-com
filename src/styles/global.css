@@ -1,0 +1,216 @@
+:root {
+	--bg:           #F7F3EC;
+	--bg-surface:   #EDE8DC;
+	--bg-border:    #D4C9B4;
+
+	--turquoise:      #1A9E96;
+	--turquoise-dark: #127870;
+	--turquoise-glow: rgba(26, 158, 150, 0.1);
+
+	--terracotta:       #B84A22;
+	--terracotta-light: #D4623A;
+
+	--silver:       #8C8078;
+	--silver-light: #5C5048;
+
+	--text:       #1C1410;
+	--text-muted: #7A6E64;
+
+	--horizon: linear-gradient(90deg, var(--turquoise), var(--terracotta));
+
+	--box-shadow: 0 2px 8px rgba(0,0,0,0.08), 0 8px 24px rgba(0,0,0,0.06);
+}
+
+*, *::before, *::after {
+	box-sizing: border-box;
+}
+
+body {
+	font-family: 'Atkinson', ui-sans-serif, system-ui, sans-serif;
+	margin: 0;
+	padding: 0;
+	background-color: var(--bg);
+	color: var(--text);
+	font-size: 18px;
+	line-height: 1.75;
+	-webkit-font-smoothing: antialiased;
+}
+
+main {
+	width: 760px;
+	max-width: calc(100% - 2em);
+	margin: 0 auto;
+	padding: 3em 1em;
+}
+
+/* ── Typography ─────────────────────────────── */
+
+h1, h2, h3, h4, h5, h6 {
+	margin: 0 0 0.5rem 0;
+	color: var(--text);
+	line-height: 1.2;
+	font-weight: 700;
+}
+
+h1 { font-size: 2.8em; }
+h2 { font-size: 2em; }
+h3 { font-size: 1.5em; }
+h4 { font-size: 1.2em; }
+h5 { font-size: 1em; }
+
+strong, b { font-weight: 700; }
+
+p { margin-bottom: 1em; }
+.prose p { margin-bottom: 1.75em; }
+
+a {
+	color: var(--turquoise);
+	text-decoration: none;
+}
+a:hover {
+	color: var(--turquoise-dark);
+	text-decoration: underline;
+}
+
+/* ── Horizon line utility ────────────────────── */
+
+.horizon-line {
+	height: 2px;
+	background: var(--horizon);
+	border: none;
+	margin: 0;
+}
+
+/* ── Code ────────────────────────────────────── */
+
+code {
+	font-family: ui-monospace, 'Cascadia Code', 'Fira Mono', monospace;
+	font-size: 0.88em;
+	padding: 2px 6px;
+	background-color: var(--bg-surface);
+	border: 1px solid var(--bg-border);
+	border-radius: 3px;
+	color: var(--terracotta);
+}
+
+pre {
+	padding: 1.5em;
+	border-radius: 8px;
+	background-color: var(--bg-surface);
+	border: 1px solid var(--bg-border);
+	overflow-x: auto;
+}
+
+pre > code {
+	all: unset;
+	font-family: ui-monospace, 'Cascadia Code', 'Fira Mono', monospace;
+	font-size: 0.88em;
+	color: var(--text);
+}
+
+/* ── Blockquote ──────────────────────────────── */
+
+blockquote {
+	border-left: 3px solid var(--turquoise);
+	padding: 0 0 0 1.25em;
+	margin: 0 0 1em 0;
+	color: var(--silver);
+	font-size: 1.1em;
+}
+
+/* ── HR ──────────────────────────────────────── */
+
+hr {
+	border: none;
+	height: 1px;
+	background-color: var(--bg-border);
+	margin: 2em 0;
+}
+
+/* ── Images ──────────────────────────────────── */
+
+img {
+	max-width: 100%;
+	height: auto;
+	border-radius: 6px;
+}
+
+/* ── Tables ──────────────────────────────────── */
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+}
+th {
+	text-align: left;
+	color: var(--silver);
+	border-bottom: 1px solid var(--bg-border);
+	padding: 0.5em 0;
+}
+td {
+	padding: 0.5em 0;
+	border-bottom: 1px solid var(--bg-border);
+}
+
+/* ── Forms ───────────────────────────────────── */
+
+input, textarea {
+	font-size: 16px;
+	font-family: inherit;
+	background-color: var(--bg-surface);
+	border: 1px solid var(--bg-border);
+	color: var(--text);
+	border-radius: 4px;
+	padding: 0.6em 0.9em;
+	width: 100%;
+}
+input:focus, textarea:focus {
+	outline: 2px solid var(--turquoise);
+	border-color: var(--turquoise);
+}
+
+/* ── Buttons ─────────────────────────────────── */
+
+.btn {
+	display: inline-block;
+	padding: 0.65em 1.4em;
+	border-radius: 4px;
+	font-size: 0.95em;
+	font-weight: 600;
+	cursor: pointer;
+	text-decoration: none;
+	transition: opacity 0.15s ease;
+}
+.btn:hover { opacity: 0.85; text-decoration: none; }
+
+.btn-primary {
+	background-color: var(--turquoise);
+	color: var(--bg);
+}
+.btn-secondary {
+	background-color: transparent;
+	color: var(--turquoise);
+	border: 1px solid var(--turquoise);
+}
+
+/* ── Responsive ──────────────────────────────── */
+
+@media (max-width: 720px) {
+	body { font-size: 17px; }
+	main { padding: 1.5em 1em; }
+	h1 { font-size: 2em; }
+}
+
+/* ── Accessibility ───────────────────────────── */
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border-width: 0;
+}

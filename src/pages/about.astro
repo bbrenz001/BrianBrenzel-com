@@ -1,0 +1,165 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_TITLE } from '../consts';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={`About · ${SITE_TITLE}`} description="AI automation consultant doing development work in rural Mexico and building practical systems for real businesses." />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<div class="about-grid">
+				<div class="about-content">
+					<p class="page-label">// ABOUT</p>
+					<h1>Brian Brenzel</h1>
+
+					<div class="prose">
+						<p>
+							I build AI automation systems for solopreneurs and owner-operated businesses.
+							Content pipelines, lead generation, client workflows. The repetitive work
+							that eats your hours without producing much.
+						</p>
+						<p>
+							I'm doing development work in Mexico and building this practice in parallel.
+							Everything I build for clients I've built for myself first. The blog on this
+							site is the documentation.
+						</p>
+						<p>
+							If you want to work together or just follow along, you're in the right place.
+						</p>
+					</div>
+
+					<div class="about-cta">
+						<a href="/blog" class="btn btn-primary">Read the writing</a>
+						<a href="/contact" class="btn btn-secondary">Get in touch</a>
+					</div>
+				</div>
+
+				<div class="about-aside">
+					<div class="aside-block">
+						<p class="aside-label">// WORKS WITH</p>
+						<p>Solopreneurs, coaches, and owner-operated businesses. US clients primarily.</p>
+					</div>
+					<div class="aside-block">
+						<p class="aside-label">// BUILDS</p>
+						<p>AI content systems, lead gen automation, client workflow automation, newsletter and social systems.</p>
+					</div>
+					<div class="aside-block">
+						<p class="aside-label">// TOOLS</p>
+						<p>Claude, Make.com, MailerLite, Python, and whatever actually works for the problem.</p>
+					</div>
+				</div>
+			</div>
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+	.page-label {
+		font-family: ui-monospace, 'Cascadia Code', 'Fira Mono', monospace;
+		font-size: 0.78em;
+		letter-spacing: 0.1em;
+		color: var(--turquoise);
+		margin: 0 0 0.75em 0;
+	}
+
+	h1 {
+		font-size: 2.4em;
+		margin: 0 0 1.25em 0;
+	}
+
+	.about-grid {
+		display: grid;
+		grid-template-columns: 1fr 280px;
+		gap: 4em;
+		align-items: start;
+	}
+
+	.prose p {
+		color: var(--text);
+		font-size: 1em;
+		line-height: 1.8;
+		margin-bottom: 1.5em;
+	}
+
+	.about-cta {
+		display: flex;
+		gap: 1em;
+		margin-top: 2em;
+		flex-wrap: wrap;
+	}
+
+	.btn {
+		display: inline-block;
+		padding: 0.65em 1.4em;
+		border-radius: 4px;
+		font-size: 0.95em;
+		font-weight: 600;
+		cursor: pointer;
+		text-decoration: none;
+		transition: all 0.15s ease;
+	}
+	.btn:hover { text-decoration: none; }
+
+	.btn-primary {
+		background-color: var(--turquoise);
+		color: #FFFFFF;
+	}
+	.btn-primary:hover { background-color: var(--turquoise-dark); }
+
+	.btn-secondary {
+		background-color: transparent;
+		color: var(--turquoise);
+		border: 1px solid var(--turquoise);
+	}
+	.btn-secondary:hover {
+		background-color: var(--turquoise-glow);
+	}
+
+	/* ── Aside ─────────────────────────────────── */
+
+	.about-aside {
+		display: flex;
+		flex-direction: column;
+		gap: 1.75em;
+		padding-top: 4.5em;
+	}
+
+	.aside-block {
+		border-left: 2px solid var(--bg-border);
+		padding-left: 1.25em;
+	}
+
+	.aside-label {
+		font-family: ui-monospace, 'Cascadia Code', 'Fira Mono', monospace;
+		font-size: 0.75em;
+		letter-spacing: 0.1em;
+		color: var(--terracotta-light);
+		margin: 0 0 0.4em 0;
+	}
+
+	.aside-block p {
+		font-size: 0.88em;
+		color: var(--silver-light);
+		margin: 0;
+		line-height: 1.6;
+	}
+
+	/* ── Responsive ────────────────────────────── */
+
+	@media (max-width: 720px) {
+		.about-grid {
+			grid-template-columns: 1fr;
+			gap: 2.5em;
+		}
+		.about-aside {
+			padding-top: 0;
+		}
+	}
+</style>

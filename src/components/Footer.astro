@@ -1,0 +1,80 @@
+---
+const today = new Date();
+---
+
+<footer>
+	<div class="horizon-line"></div>
+	<div class="footer-inner">
+		<div class="footer-brand">
+			<span class="brand-mono">BRIAN BRENZEL</span>
+			<p class="tagline">AI automation. Built in Mexico. No hype.</p>
+		</div>
+		<div class="footer-links">
+			<a href="/blog">Writing</a>
+			<a href="/about">About</a>
+			<!-- Social links — update hrefs when accounts are confirmed -->
+			<a href="https://linkedin.com/in/brianbrenzel" target="_blank" rel="noopener">LinkedIn</a>
+			<a href="https://tiktok.com/@brianbrenzel" target="_blank" rel="noopener">TikTok</a>
+		</div>
+		<p class="copyright">&copy; {today.getFullYear()} Brian Brenzel</p>
+	</div>
+</footer>
+
+<style>
+	footer {
+		background-color: var(--bg);
+		border-top: 1px solid var(--bg-border);
+		margin-top: 4em;
+	}
+
+	.footer-inner {
+		max-width: 900px;
+		margin: 0 auto;
+		padding: 2.5em 1.5em 3em;
+		display: flex;
+		flex-direction: column;
+		gap: 1.25em;
+	}
+
+	.footer-brand {
+		display: flex;
+		flex-direction: column;
+		gap: 0.25em;
+	}
+
+	.brand-mono {
+		font-family: ui-monospace, 'Cascadia Code', 'Fira Mono', monospace;
+		font-size: 0.8em;
+		letter-spacing: 0.12em;
+		color: var(--silver);
+	}
+
+	.tagline {
+		margin: 0;
+		font-size: 0.9em;
+		color: var(--text-muted);
+	}
+
+	.footer-links {
+		display: flex;
+		gap: 1.5em;
+		flex-wrap: wrap;
+	}
+
+	.footer-links a {
+		font-size: 0.9em;
+		color: var(--silver);
+		text-decoration: none;
+		transition: color 0.15s ease;
+	}
+	.footer-links a:hover {
+		color: var(--turquoise);
+		text-decoration: none;
+	}
+
+	.copyright {
+		margin: 0;
+		font-size: 0.8em;
+		color: var(--text-muted);
+	}
+</style>

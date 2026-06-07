@@ -1,0 +1,258 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import Header from '../components/Header.astro';
+import MailerLiteForm from '../components/MailerLiteForm.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+
+const posts = (await getCollection('blog'))
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+	.slice(0, 3);
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body>
+		<Header />
+
+		<!-- Hero -->
+		<section class="hero">
+			<div class="hero-inner">
+				<p class="hero-label">// AI AUTOMATION CONSULTANT</p>
+				<h1 class="hero-headline">
+					Building automation systems<br />
+					<span class="accent-turquoise">for businesses that do real work.</span>
+				</h1>
+				<p class="hero-body">
+					I'm Brian Brenzel. I've spent the last two years doing community development work
+					in rural Mexico and building AI automation systems on the side. Practical tools
+					for solopreneurs and business owners. Writing about
+					everything as I build it.
+				</p>
+			</div>
+			<div class="hero-horizon"></div>
+		</section>
+
+		<main>
+
+			<!-- Recent Posts -->
+			{posts.length > 0 && (
+				<section class="recent-posts">
+					<h2 class="section-title">Latest Writing</h2>
+					<ul class="post-list">
+						{posts.map(post => (
+							<li class="post-item">
+								<a href={`/blog/${post.id}/`} class="post-link">
+									<div class="post-meta">
+										<span class="post-date">
+											<FormattedDate date={post.data.pubDate} />
+										</span>
+									</div>
+									<h3 class="post-title">{post.data.title}</h3>
+									{post.data.description && (
+										<p class="post-excerpt">{post.data.description}</p>
+									)}
+								</a>
+							</li>
+						))}
+					</ul>
+					<a href="/blog" class="all-posts-link">All posts →</a>
+				</section>
+			)}
+
+			<!-- Newsletter -->
+			<section class="newsletter" id="newsletter">
+				<div class="newsletter-inner">
+					<p class="newsletter-label">// NEWSLETTER</p>
+					<h2 class="newsletter-title">One email when something's worth reading.</h2>
+					<p class="newsletter-body">
+						I write about AI automation, building a consulting practice from scratch,
+						and the tools that actually save time. When I publish something worth reading,
+						you'll get it.
+					</p>
+					<MailerLiteForm />
+				</div>
+			</section>
+
+		</main>
+
+		<Footer />
+	</body>
+</html>
+
+<style>
+	/* ── Hero ──────────────────────────────────── */
+	.hero {
+		background-color: var(--bg);
+		background-image: radial-gradient(ellipse 80% 50% at 20% 100%, rgba(184, 74, 34, 0.06) 0%, transparent 60%),
+		                  radial-gradient(ellipse 60% 40% at 80% 100%, rgba(26, 158, 150, 0.05) 0%, transparent 60%);
+		padding: 5em 1.5em 0;
+	}
+
+	.hero-inner {
+		max-width: 760px;
+		margin: 0 auto;
+		padding-bottom: 4em;
+	}
+
+	.hero-label {
+		font-family: ui-monospace, 'Cascadia Code', 'Fira Mono', monospace;
+		font-size: 0.78em;
+		letter-spacing: 0.1em;
+		color: var(--turquoise);
+		margin: 0 0 1.25em 0;
+	}
+
+	.hero-headline {
+		font-size: 2.8em;
+		line-height: 1.15;
+		margin: 0 0 1em 0;
+		color: var(--text);
+	}
+
+	.accent-turquoise { color: var(--turquoise); }
+
+	.hero-body {
+		font-size: 1.05em;
+		color: var(--silver-light);
+		max-width: 580px;
+		margin: 0 0 2em 0;
+		line-height: 1.75;
+	}
+
+.hero-horizon {
+		height: 2px;
+		background: var(--horizon);
+		max-width: 760px;
+		margin: 0 auto;
+		opacity: 0.9;
+	}
+
+	/* ── Sections ──────────────────────────────── */
+	.section-title {
+		font-size: 1em;
+		font-family: ui-monospace, 'Cascadia Code', 'Fira Mono', monospace;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: var(--text-muted);
+		margin: 0 0 1.5em 0;
+	}
+
+	/* ── Post list ─────────────────────────────── */
+	.recent-posts {
+		margin-bottom: 4em;
+	}
+
+	.post-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 0;
+	}
+
+	.post-item {
+		border-top: 1px solid var(--bg-border);
+	}
+	.post-item:last-child {
+		border-bottom: 1px solid var(--bg-border);
+	}
+
+	.post-link {
+		display: block;
+		padding: 1.4em 0;
+		text-decoration: none;
+		transition: background-color 0.15s ease;
+	}
+	.post-link:hover {
+		text-decoration: none;
+	}
+	.post-link:hover .post-title {
+		color: var(--turquoise);
+	}
+
+	.post-meta {
+		margin-bottom: 0.3em;
+	}
+
+	.post-date {
+		font-family: ui-monospace, 'Cascadia Code', 'Fira Mono', monospace;
+		font-size: 0.78em;
+		letter-spacing: 0.05em;
+		color: var(--terracotta-light);
+	}
+
+	.post-title {
+		font-size: 1.15em;
+		font-weight: 600;
+		color: var(--text);
+		margin: 0 0 0.4em 0;
+		transition: color 0.15s ease;
+	}
+
+	.post-excerpt {
+		font-size: 0.92em;
+		color: var(--silver);
+		margin: 0;
+		line-height: 1.6;
+	}
+
+	.all-posts-link {
+		display: inline-block;
+		margin-top: 1.5em;
+		font-size: 0.9em;
+		color: var(--terracotta-light);
+		text-decoration: none;
+		font-weight: 600;
+	}
+	.all-posts-link:hover {
+		color: var(--terracotta);
+		text-decoration: underline;
+	}
+
+	/* ── Newsletter ────────────────────────────── */
+	.newsletter {
+		background-color: var(--bg-surface);
+		border: 1px solid var(--bg-border);
+		border-radius: 8px;
+		margin-bottom: 2em;
+	}
+
+	.newsletter-inner {
+		padding: 2.5em;
+	}
+
+	.newsletter-label {
+		font-family: ui-monospace, 'Cascadia Code', 'Fira Mono', monospace;
+		font-size: 0.78em;
+		letter-spacing: 0.1em;
+		color: var(--terracotta-light);
+		margin: 0 0 0.75em 0;
+	}
+
+	.newsletter-title {
+		font-size: 1.5em;
+		margin: 0 0 0.75em 0;
+		color: var(--text);
+	}
+
+	.newsletter-body {
+		font-size: 0.95em;
+		color: var(--silver);
+		max-width: 480px;
+		margin: 0 0 1.5em 0;
+	}
+
+/* ── Responsive ────────────────────────────── */
+	@media (max-width: 720px) {
+		.hero { padding: 3em 1em 0; }
+		.hero-headline { font-size: 2em; }
+		.newsletter-inner { padding: 1.5em; }
+	}
+</style>
