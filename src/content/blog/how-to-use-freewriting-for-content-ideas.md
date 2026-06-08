@@ -2,7 +2,6 @@
 title: 'How to Use Freewriting for Content Ideas (and Build a 2nd Brain Around It)'
 description: 'Freewriting is one of the best tools for generating content ideas. Here is how to use it and plug it into an AI-powered 2nd brain system.'
 pubDate: 'Jun 08 2026'
-heroImage: '../../assets/blog-placeholder-3.jpg'
 ---
 
 I'm sitting here in rural Mexico with no internet and no power again, typing out my freewriting on a Monday morning. Freewriting is one of the most useful tools I've found for generating content ideas, and most people are barely scratching the surface of what it can do.

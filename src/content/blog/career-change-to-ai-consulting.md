@@ -2,7 +2,6 @@
 title: 'Career Change to AI Consulting: A Firefighter''s Story'
 description: 'Ex-wildland firefighter turned AI consultant. Building from a village in rural Mexico. Here''s how the career change happened.'
 pubDate: 'Jun 08 2026'
-heroImage: '../../assets/blog-placeholder-1.jpg'
 ---
 
 I spent eight years as a wildland firefighter in Southern California. That's the short version. The longer one is that I was looking for a way out for years before I actually left — and the career change into AI consulting started in a bar in winter, over beer and lunch with a former captain who invited me on a river rafting trip in Africa.

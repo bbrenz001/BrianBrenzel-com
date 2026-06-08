@@ -2,7 +2,6 @@
 title: 'I Built My Website in an Afternoon Using AI - No Coding Required'
 description: 'I built a full website in two hours using Claude Code and no coding background. Here is the exact workflow, stack, and what AI still cannot do for you.'
 pubDate: 'Jun 08 2026'
-heroImage: '../../assets/blog-placeholder-2.jpg'
 ---
 
 Before today, my site was a single landing page on Carrd. Copy-pasted text in a template that didn't feel like me. I had messed around with WordPress and Carrd before and never clicked with either. I didn't want to learn CSS or HTML. I just wanted it to work. So I tried building a website with AI and no coding experience. Two hours later I had a real site.
