@@ -1,6 +1,6 @@
 ---
 title: 'Career Change to AI Consulting: A Firefighter''s Story'
-description: 'Ex-wildland firefighter. Peace Corps. Now teaching myself AI consulting from a village in Mexico. Here''s how the career change happened.'
+description: 'Ex-wildland firefighter turned AI consultant. Building from a village in rural Mexico. Here''s how the career change happened.'
 pubDate: 'Jun 08 2026'
 heroImage: '../../assets/blog-placeholder-1.jpg'
 ---
