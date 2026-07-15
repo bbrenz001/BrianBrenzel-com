@@ -28,6 +28,10 @@ const posts = (await getCollection('blog'))
 					Building automation systems<br />
 					<span class="accent-turquoise">for businesses that do real work.</span>
 				</h1>
+				<p class="hero-pain">
+					Content that eats hours, leads that go cold, admin that piles up — I'm learning
+					to build systems that fix it, starting with my own work.
+				</p>
 				<p class="hero-body">
 					I'm Brian Brenzel. I've spent the last two years doing community development work
 					in rural Mexico and building AI automation systems on the side. Practical tools
@@ -39,6 +43,34 @@ const posts = (await getCollection('blog'))
 		</section>
 
 		<main>
+
+			<!-- What I'm building -->
+			<section class="services">
+				<h2 class="section-title">What I'm Building</h2>
+				<ul class="services-list">
+					<li class="service-item">
+						<h3 class="service-title">Content pipelines</h3>
+						<p class="service-desc">
+							Turning one piece of writing into a blog post, newsletter, and social
+							clips without redoing the work each time. Built for my own writing first.
+						</p>
+					</li>
+					<li class="service-item">
+						<h3 class="service-title">Lead generation automation</h3>
+						<p class="service-desc">
+							Systems that find and follow up with leads automatically. Testing this
+							on my own outreach before I'd offer it to anyone else.
+						</p>
+					</li>
+					<li class="service-item">
+						<h3 class="service-title">Client workflow automation</h3>
+						<p class="service-desc">
+							Onboarding and admin systems for service businesses. First real test
+							case: my wife's coaching practice.
+						</p>
+					</li>
+				</ul>
+			</section>
 
 			<!-- Recent Posts -->
 			{posts.length > 0 && (
@@ -117,6 +149,15 @@ const posts = (await getCollection('blog'))
 
 	.accent-turquoise { color: var(--turquoise); }
 
+	.hero-pain {
+		font-size: 1.1em;
+		font-weight: 600;
+		color: var(--text);
+		max-width: 580px;
+		margin: 0 0 1em 0;
+		line-height: 1.6;
+	}
+
 	.hero-body {
 		font-size: 1.05em;
 		color: var(--silver-light);
@@ -141,6 +182,39 @@ const posts = (await getCollection('blog'))
 		text-transform: uppercase;
 		color: var(--text-muted);
 		margin: 0 0 1.5em 0;
+	}
+
+	/* ── Services ──────────────────────────────── */
+	.services {
+		margin-bottom: 4em;
+	}
+
+	.services-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 1.5em;
+	}
+
+	.service-item {
+		background-color: var(--bg-surface);
+		border: 1px solid var(--bg-border);
+		border-radius: 8px;
+		padding: 1.5em;
+	}
+
+	.service-title {
+		font-size: 1.05em;
+		margin: 0 0 0.5em 0;
+	}
+
+	.service-desc {
+		font-size: 0.9em;
+		color: var(--silver);
+		margin: 0;
+		line-height: 1.6;
 	}
 
 	/* ── Post list ─────────────────────────────── */
@@ -254,5 +328,6 @@ const posts = (await getCollection('blog'))
 		.hero { padding: 3em 1em 0; }
 		.hero-headline { font-size: 2em; }
 		.newsletter-inner { padding: 1.5em; }
+		.services-list { grid-template-columns: 1fr; }
 	}
 </style>
