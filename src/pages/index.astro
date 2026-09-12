@@ -83,8 +83,8 @@ const posts = (await getCollection('blog'))
 	/* ── Hero ──────────────────────────────────── */
 	.hero {
 		background-color: var(--bg);
-		background-image: radial-gradient(ellipse 80% 50% at 20% 100%, rgba(184, 74, 34, 0.06) 0%, transparent 60%),
-		                  radial-gradient(ellipse 60% 40% at 80% 100%, rgba(26, 158, 150, 0.05) 0%, transparent 60%);
+		background-image: radial-gradient(ellipse 80% 50% at 20% 100%, rgba(65, 64, 60, 0.04) 0%, transparent 60%),
+		                  radial-gradient(ellipse 60% 40% at 80% 100%, rgba(110, 106, 79, 0.06) 0%, transparent 60%);
 		padding: 5em 1.5em 0;
 	}
 
@@ -98,7 +98,7 @@ const posts = (await getCollection('blog'))
 		font-family: ui-monospace, 'Cascadia Code', 'Fira Mono', monospace;
 		font-size: 0.78em;
 		letter-spacing: 0.1em;
-		color: var(--turquoise);
+		color: var(--moss);
 		margin: 0 0 1.25em 0;
 	}
 
@@ -109,7 +109,7 @@ const posts = (await getCollection('blog'))
 		color: var(--text);
 	}
 
-	.accent-turquoise { color: var(--turquoise); }
+	.accent-moss { color: var(--moss); }
 
 	.hero-pain {
 		font-size: 1.1em;
@@ -210,7 +210,7 @@ const posts = (await getCollection('blog'))
 		text-decoration: none;
 	}
 	.post-link:hover .post-title {
-		color: var(--turquoise);
+		color: var(--moss);
 	}
 
 	.post-meta {
@@ -221,7 +221,7 @@ const posts = (await getCollection('blog'))
 		font-family: ui-monospace, 'Cascadia Code', 'Fira Mono', monospace;
 		font-size: 0.78em;
 		letter-spacing: 0.05em;
-		color: var(--terracotta-light);
+		color: var(--moss);
 	}
 
 	.post-title {
@@ -243,12 +243,12 @@ const posts = (await getCollection('blog'))
 		display: inline-block;
 		margin-top: 1.5em;
 		font-size: 0.9em;
-		color: var(--terracotta-light);
+		color: var(--moss);
 		text-decoration: none;
 		font-weight: 600;
 	}
 	.all-posts-link:hover {
-		color: var(--terracotta);
+		color: var(--moss-dark);
 		text-decoration: underline;
 	}
 
@@ -268,7 +268,7 @@ const posts = (await getCollection('blog'))
 		font-family: ui-monospace, 'Cascadia Code', 'Fira Mono', monospace;
 		font-size: 0.78em;
 		letter-spacing: 0.1em;
-		color: var(--terracotta-light);
+		color: var(--moss);
 		margin: 0 0 0.75em 0;
 	}
 

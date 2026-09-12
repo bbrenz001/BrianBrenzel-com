@@ -1,22 +1,29 @@
+/* Palette "Trailhead" — confirmed 2026-09-12, see the vault's
+   200 - Destination/Brand Palette - brianbrenzel.com.md for the source
+   decision. The four named colors there (bg, text, moss, red) are the
+   confirmed brand colors; -surface/-border/-muted/-dark/-glow/-light
+   below are derived supporting tones, not separately decided. */
 :root {
-	--bg:           #F7F3EC;
-	--bg-surface:   #EDE8DC;
-	--bg-border:    #D4C9B4;
+	--bg:           #EDEFEE;
+	--bg-surface:   #E5E7E6;
+	--bg-border:    #DADBD6;
 
-	--turquoise:      #1A9E96;
-	--turquoise-dark: #127870;
-	--turquoise-glow: rgba(26, 158, 150, 0.1);
+	--moss:      #6E6A4F;
+	--moss-dark: #56533E;
+	--moss-glow: rgba(110, 106, 79, 0.12);
 
-	--terracotta:       #B84A22;
-	--terracotta-light: #D4623A;
+	--red:      #AA210F;
+	--red-dark: #851A0C;
 
-	--silver:       #8C8078;
-	--silver-light: #5C5048;
+	--silver:       #868683;
+	--silver-light: #6C6C69;
 
-	--text:       #1C1410;
-	--text-muted: #7A6E64;
+	--text:       #41403C;
+	--text-muted: #8E8F8C;
 
-	--horizon: linear-gradient(90deg, var(--turquoise), var(--terracotta));
+	/* Solid, not a gradient — red is reserved for the CTA button only,
+	   per the palette note, so it doesn't appear in this decorative line. */
+	--horizon: var(--moss);
 
 	--box-shadow: 0 2px 8px rgba(0,0,0,0.08), 0 8px 24px rgba(0,0,0,0.06);
 }
@@ -64,11 +71,11 @@ p { margin-bottom: 1em; }
 .prose p { margin-bottom: 1.75em; }
 
 a {
-	color: var(--turquoise);
+	color: var(--moss);
 	text-decoration: none;
 }
 a:hover {
-	color: var(--turquoise-dark);
+	color: var(--moss-dark);
 	text-decoration: underline;
 }
 
@@ -90,7 +97,7 @@ code {
 	background-color: var(--bg-surface);
 	border: 1px solid var(--bg-border);
 	border-radius: 3px;
-	color: var(--terracotta);
+	color: var(--moss-dark);
 }
 
 pre {
@@ -111,7 +118,7 @@ pre > code {
 /* ── Blockquote ──────────────────────────────── */
 
 blockquote {
-	border-left: 3px solid var(--turquoise);
+	border-left: 3px solid var(--moss);
 	padding: 0 0 0 1.25em;
 	margin: 0 0 1em 0;
 	color: var(--silver);
@@ -165,8 +172,8 @@ input, textarea {
 	width: 100%;
 }
 input:focus, textarea:focus {
-	outline: 2px solid var(--turquoise);
-	border-color: var(--turquoise);
+	outline: 2px solid var(--moss);
+	border-color: var(--moss);
 }
 
 /* ── Buttons ─────────────────────────────────── */
@@ -184,13 +191,13 @@ input:focus, textarea:focus {
 .btn:hover { opacity: 0.85; text-decoration: none; }
 
 .btn-primary {
-	background-color: var(--turquoise);
+	background-color: var(--red);
 	color: var(--bg);
 }
 .btn-secondary {
 	background-color: transparent;
-	color: var(--turquoise);
-	border: 1px solid var(--turquoise);
+	color: var(--moss);
+	border: 1px solid var(--moss);
 }
 
 /* ── Responsive ──────────────────────────────── */
