@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Freewrite — brianbrenzel.com</title>
+  <meta name="description" content="A timed freewriting tool. Pick a direction, set your timer, write without stopping or self-editing.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:           #F4EFE3;
+      --paper:        #FDFAF3;
+      --ink:          #1A1510;
+      --ink-muted:    #7A6E60;
+      --accent:       #7C5C3A;
+      --border:       #DDD6C8;
+      --border-focus: #A89070;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Lora', Georgia, 'Times New Roman', serif;
+      min-height: 100vh;
+    }
+
+.screen { display: none; }
+    .screen.active { display: flex; }
+
+    /* ─── SETUP ─── */
+    #setup-screen {
+      min-height: 100vh;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 1rem;
+    }
+
+    .setup-inner {
+      width: 100%;
+      max-width: 520px;
+      text-align: center;
+    }
+
+    .site-label {
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      margin-bottom: 2rem;
+    }
+
+    .setup-heading {
+      font-size: 2.2rem;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.6rem;
+    }
+
+    .setup-sub {
+      font-size: 0.97rem;
+      font-style: italic;
+      color: var(--ink-muted);
+      line-height: 1.7;
+      margin-bottom: 3rem;
+    }
+
+    .section-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .track-buttons {
+      display: flex;
+      gap: 0.6rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 2.75rem;
+    }
+
+    .track-btn {
+      background: transparent;
+      border: 1.5px solid var(--border);
+      color: var(--ink);
+      font-family: inherit;
+      font-size: 0.92rem;
+      padding: 0.6rem 1.2rem;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: border-color 0.18s, color 0.18s, background 0.18s;
+    }
+    .track-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .track-btn.selected {
+      background: var(--ink);
+      border-color: var(--ink);
+      color: var(--bg);
+    }
+
+    .duration-buttons {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+      margin-bottom: 2.75rem;
+    }
+
+    .duration-btn {
+      background: transparent;
+      border: 1.5px solid var(--border);
+      color: var(--ink-muted);
+      font-family: inherit;
+      font-size: 0.88rem;
+      padding: 0.5rem 0.9rem;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: border-color 0.18s, color 0.18s;
+    }
+    .duration-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .duration-btn.selected { border-color: var(--ink); color: var(--ink); font-weight: 500; }
+
+    #start-btn {
+      display: block;
+      width: 100%;
+      max-width: 220px;
+      margin: 0 auto 1.1rem;
+      background: var(--ink);
+      color: var(--bg);
+      border: none;
+      font-family: inherit;
+      font-size: 0.98rem;
+      letter-spacing: 0.04em;
+      padding: 0.85rem 2rem;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: background 0.18s, opacity 0.18s;
+    }
+    #start-btn:hover:not(:disabled) { background: var(--accent); }
+    #start-btn:disabled { opacity: 0.32; cursor: not-allowed; }
+
+    .no-prompt-link {
+      display: inline-block;
+      color: var(--ink-muted);
+      font-size: 0.83rem;
+      font-style: italic;
+      text-decoration: none;
+      transition: color 0.18s;
+    }
+    .no-prompt-link:hover { color: var(--accent); }
+
+    /* ─── SESSION ─── */
+    #session-screen {
+      flex-direction: column;
+      min-height: 100vh;
+      padding: 1.5rem 1rem 2.5rem;
+    }
+
+    .session-inner {
+      width: 100%;
+      max-width: 680px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      flex: 1;
+    }
+
+    .session-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    #timer-display {
+      font-size: 0.95rem;
+      color: var(--ink-muted);
+      letter-spacing: 0.08em;
+      font-variant-numeric: tabular-nums;
+      min-width: 4rem;
+    }
+
+    #rotate-prompt-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--ink-muted);
+      font-family: inherit;
+      font-size: 0.78rem;
+      letter-spacing: 0.04em;
+      padding: 0.28rem 0.7rem;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: border-color 0.18s, color 0.18s;
+    }
+    #rotate-prompt-btn:hover { border-color: var(--accent); color: var(--accent); }
+    #rotate-prompt-btn.hidden { visibility: hidden; pointer-events: none; }
+
+    #prompt-display {
+      font-size: 1rem;
+      font-style: italic;
+      color: var(--ink-muted);
+      line-height: 1.7;
+      transition: opacity 1.4s ease;
+      cursor: default;
+      min-height: 1.5em;
+    }
+    #prompt-display.hidden { display: none; }
+    #prompt-display.faded { opacity: 0.15; }
+    #prompt-display.faded:hover { opacity: 0.65; transition: opacity 0.25s; }
+
+    #writing-area {
+      flex: 1;
+      min-height: 360px;
+      background: var(--paper);
+      border: 1.5px solid var(--border);
+      border-radius: 3px;
+      padding: 1.5rem 1.75rem;
+      font-family: 'Lora', Georgia, serif;
+      font-size: 1.1rem;
+      line-height: 1.85;
+      color: var(--ink);
+      resize: none;
+      outline: none;
+      transition: border-color 0.2s, background 0.3s;
+    }
+    #writing-area:focus { border-color: var(--border-focus); }
+    #writing-area[readonly] {
+      background: var(--bg);
+      border-color: var(--border);
+      cursor: default;
+      color: var(--ink-muted);
+    }
+
+    #word-count {
+      font-size: 0.78rem;
+      color: var(--ink-muted);
+      text-align: right;
+      font-style: italic;
+      min-height: 1.1em;
+    }
+
+    #done-controls {
+      display: flex;
+      gap: 0.65rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    #done-controls.hidden { display: none; }
+
+    .action-btn {
+      background: var(--ink);
+      color: var(--bg);
+      border: none;
+      font-family: inherit;
+      font-size: 0.88rem;
+      padding: 0.6rem 1.2rem;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: background 0.18s;
+      white-space: nowrap;
+    }
+    .action-btn:hover { background: var(--accent); }
+
+    .action-btn.ghost {
+      background: transparent;
+      border: 1.5px solid var(--border);
+      color: var(--ink);
+    }
+    .action-btn.ghost:hover { border-color: var(--accent); color: var(--accent); background: transparent; }
+
+    #clear-btn {
+      margin-left: auto;
+      background: none;
+      border: none;
+      color: var(--ink-muted);
+      font-family: inherit;
+      font-size: 0.8rem;
+      font-style: italic;
+      cursor: pointer;
+      padding: 0;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      transition: color 0.18s;
+    }
+    #clear-btn:hover { color: #b91c1c; }
+    #clear-btn.confirm-state { color: #b91c1c; font-weight: 500; font-style: normal; }
+
+    #cta-block {
+      margin-top: 0.25rem;
+      padding: 1.1rem 1.5rem;
+      border: 1.5px solid var(--border);
+      border-radius: 3px;
+      text-align: center;
+      font-size: 0.88rem;
+      color: var(--ink-muted);
+      line-height: 1.65;
+    }
+    #cta-block.hidden { display: none; }
+    #cta-block a { color: var(--accent); text-decoration: none; font-weight: 500; }
+    #cta-block a:hover { text-decoration: underline; }
+
+    .session-footer-link {
+      text-align: center;
+      margin-top: 1.25rem;
+    }
+    .session-footer-link a {
+      font-size: 0.75rem;
+      color: var(--ink-muted);
+      text-decoration: none;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .session-footer-link a:hover { color: var(--accent); }
+
+    @media (max-width: 520px) {
+      .track-buttons { flex-direction: column; align-items: center; }
+      .track-btn { width: 210px; }
+      .duration-buttons { gap: 0.4rem; }
+      .duration-btn { padding: 0.45rem 0.7rem; font-size: 0.84rem; }
+      #writing-area { min-height: 300px; font-size: 1rem; padding: 1.1rem; }
+      #done-controls { gap: 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- SETUP -->
+<div id="setup-screen" class="screen active">
+  <div class="setup-inner">
+    <p class="site-label">brianbrenzel.com</p>
+    <h1 class="setup-heading">Freewrite.</h1>
+    <p class="setup-sub">
+      Pick a direction. Set your time.<br>
+      Write without stopping or self-editing. Write freely.
+    </p>
+
+    <p class="section-label">What do you need today?</p>
+    <div class="track-buttons">
+      <button class="track-btn" data-track="know-yourself">Know Yourself</button>
+      <button class="track-btn" data-track="get-unstuck">Get Unstuck</button>
+      <button class="track-btn" data-track="creative-writing">Creative Writing</button>
+    </div>
+
+    <p class="section-label">How long?</p>
+    <div class="duration-buttons">
+      <button class="duration-btn" data-minutes="3">3 min</button>
+      <button class="duration-btn" data-minutes="5">5 min</button>
+      <button class="duration-btn" data-minutes="10">10 min</button>
+      <button class="duration-btn" data-minutes="15">15 min</button>
+      <button class="duration-btn" data-minutes="20">20 min</button>
+    </div>
+
+    <button id="start-btn" disabled>Start Writing</button>
+    <a href="#" id="no-prompt-link" class="no-prompt-link">or start without a prompt &rarr;</a>
+  </div>
+</div>
+
+<!-- SESSION -->
+<div id="session-screen" class="screen">
+  <div class="session-inner">
+
+    <div class="session-header">
+      <span id="timer-display">00:00</span>
+      <button id="rotate-prompt-btn" class="hidden">New Prompt</button>
+    </div>
+
+    <div id="prompt-display" class="hidden"></div>
+
+    <textarea
+      id="writing-area"
+      spellcheck="false"
+      autocomplete="off"
+      autocorrect="off"
+      autocapitalize="off"
+      placeholder="Start writing&#8230;"
+    ></textarea>
+
+    <div id="word-count"></div>
+
+    <div id="done-controls" class="hidden">
+      <button class="action-btn" id="copy-btn">Copy All</button>
+      <button class="action-btn ghost" id="download-btn">Download .txt</button>
+      <button class="action-btn ghost" id="new-session-btn">New Session</button>
+      <button id="clear-btn" data-confirm="false">clear all</button>
+    </div>
+
+    <!-- Replace #MAILERLITE_LINK with your MailerLite signup URL when ready -->
+    <div id="cta-block" class="hidden">
+      Want 100+ prompts in a printable guide?<br>
+      <a href="#MAILERLITE_LINK" target="_blank">Get the free freewriting guide &rarr;</a>
+    </div>
+
+    <div class="session-footer-link">
+      <a href="https://brianbrenzel.com">brianbrenzel.com</a>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const PROMPTS = {
+  'know-yourself': [
+    "Write about the version of yourself you're most afraid other people actually see.",
+    "Describe the last time you felt completely yourself. What was different about that moment?",
+    "Write a letter from the part of you that blocks progress to protect you.",
+    "What would you do differently if you knew no one was watching and no one would ever find out?",
+    "Write about the thing you want so badly you're almost afraid to put it on paper.",
+    "What belief do you have about yourself that you've never actually tested?",
+    "What do you need to admit to yourself before you can move forward?",
+    "What's the most honest thing you haven't said out loud this week?",
+    "Write about something you envy in someone else. Be specific. Then write about what that envy is actually telling you.",
+    "Write about the last time you felt genuinely seen. What were you doing? What made it different?",
+    "Write about a desire you've never said out loud. Don't explain it. Just write it.",
+    "Write about something you pretend not to want.",
+    "What would you have to stop pretending if you actually went after the thing?",
+    "Write for 10 minutes about something you noticed today that you almost missed entirely.",
+    "Write about what your morning actually looks like. Not what you wish it looked like.",
+    "Write about a conversation you had this week that you keep returning to.",
+    "Write about something you're pretending is fine.",
+    "Write about something you changed your mind about recently. What moved you?",
+    "What are you carrying right now that isn't yours to carry?",
+    "What's one thing you know about yourself today that you didn't know a year ago?",
+    "Write about someone you've been meaning to reach out to. What's actually stopping you?"
+  ],
+  'get-unstuck': [
+    "Write a permission slip to yourself to start before you're ready.",
+    "Describe your creative block as a character. What does it look like? What does it want?",
+    "Write about what “done” looks like for the thing you keep avoiding. Then write about why done feels dangerous.",
+    "What would you make if you knew it was going to fail? Now make that.",
+    "Write about the last time you got out of your own way. What shifted?",
+    "Write to the version of you who already finished it. What do they say about why you waited so long?",
+    "What's the real reason you haven't started? Keep writing until you hit something that actually feels true.",
+    "What would you do if the fear didn't have a vote?",
+    "What do you allow yourself to be bad at? What do you not? Why the difference?",
+    "Write about a time you shared something before it was ready. What actually happened?",
+    "Write about the version of you that creates without an audience in mind. Does that version still exist?",
+    "What would you make if you were the only person who'd ever see it?",
+    "What standard are you holding your work to that you'd never hold anyone else's work to?",
+    "Who taught you to be embarrassed about creating? Write them a letter.",
+    "How do you know when an idea is worth pursuing? Write about the feeling, not the logic.",
+    "What's your actual creative process versus the process you tell people you have?",
+    "Write about what your creativity looks like when you stop managing it.",
+    "What kind of creative work do you avoid even though you know you're good at it?",
+    "What are you afraid will happen if you actually commit to this for real?",
+    "Write about your relationship with finishing things. Be specific and honest."
+  ],
+  'creative-writing': [
+    "Write a scene where two strangers share an elevator for 30 seconds. One of them is about to change their life.",
+    "Describe a place you've never been as if you grew up there.",
+    "Write the last page of a book you'd want to read but doesn't exist yet.",
+    "Pick something ordinary. A cup of coffee, a bus seat, a streetlight. Write about it like it carries a secret.",
+    "A character discovers something in their house that doesn't belong to them. Go.",
+    "Write from the point of view of the city at 4am.",
+    "Write the opening paragraph of a story set somewhere you know well but don't like.",
+    "Write about a real memory, but change one detail. Follow where it goes.",
+    "Write about an object that matters to someone without ever explaining why it matters.",
+    "Your character finds a door in their house that wasn't there yesterday.",
+    "Write the villain's version of the story. They're the one who's right.",
+    "Write a love story in exactly 10 sentences.",
+    "Start with “Right now, honestly…” and don't stop until the timer goes off.",
+    "Write the thing you've been avoiding writing. Don't think. Just start with the first word that comes.",
+    "Write the sentence you're most afraid to write. Then write the one after it.",
+    "Start with “I don't know how to say this, but…” and go.",
+    "Start with “The thing I keep not saying is…” and go.",
+    "Write about what writing feels like today. Describe it physically, not conceptually.",
+    "Write about the best meal you've ever eaten. Every detail.",
+    "Write about a place you'll never go back to.",
+    "Describe the feeling of arriving somewhere familiar after a long time away.",
+    "Write the conversation you wish you'd had.",
+    "Write about something you lost that you never looked for."
+  ]
+};
+
+// State
+let selectedTrack    = null;
+let selectedDuration = null;
+let activeTrack      = null;
+let timerInterval    = null;
+let secondsLeft      = 0;
+let sessionCount     = 0;
+let firstPrompt      = null;
+let currentPrompt    = null;
+let writingStarted   = false;
+let clearTimeout_    = null;
+let promptQueues     = {};
+
+// DOM
+const setupScreen   = document.getElementById('setup-screen');
+const sessionScreen = document.getElementById('session-screen');
+const timerEl       = document.getElementById('timer-display');
+const promptEl      = document.getElementById('prompt-display');
+const writingArea   = document.getElementById('writing-area');
+const wordCountEl   = document.getElementById('word-count');
+const doneControls  = document.getElementById('done-controls');
+const ctaBlock      = document.getElementById('cta-block');
+const startBtn      = document.getElementById('start-btn');
+const rotateBtn     = document.getElementById('rotate-prompt-btn');
+const copyBtn       = document.getElementById('copy-btn');
+const downloadBtn   = document.getElementById('download-btn');
+const newSessionBtn = document.getElementById('new-session-btn');
+const clearBtn      = document.getElementById('clear-btn');
+const noPromptLink  = document.getElementById('no-prompt-link');
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function nextPrompt(track) {
+  if (!promptQueues[track] || promptQueues[track].length === 0) {
+    promptQueues[track] = shuffle(PROMPTS[track]);
+  }
+  return promptQueues[track].shift();
+}
+
+function pad(n) { return String(n).padStart(2, '0'); }
+function formatTime(s) { return pad(Math.floor(s / 60)) + ':' + pad(s % 60); }
+function countWords(str) { return str.trim() === '' ? 0 : str.trim().split(/\s+/).length; }
+
+function updateStartBtn() {
+  startBtn.disabled = !(selectedTrack && selectedDuration);
+}
+
+function showSetup() {
+  sessionScreen.classList.remove('active');
+  setupScreen.classList.add('active');
+}
+
+function showSession() {
+  setupScreen.classList.remove('active');
+  sessionScreen.classList.add('active');
+}
+
+function startTimer(minutes) {
+  secondsLeft = minutes * 60;
+  timerEl.textContent = formatTime(secondsLeft);
+  timerInterval = setInterval(function() {
+    secondsLeft--;
+    timerEl.textContent = formatTime(secondsLeft);
+    if (secondsLeft <= 0) {
+      clearInterval(timerInterval);
+      endSession();
+    }
+  }, 1000);
+}
+
+function beginSession(track, duration) {
+  activeTrack = track;
+  var hasPrompt = track !== 'no-prompt';
+  var prompt = hasPrompt ? nextPrompt(track) : null;
+  currentPrompt = prompt;
+
+  if (sessionCount === 0) {
+    firstPrompt = prompt;
+  }
+
+  if (sessionCount > 0 && writingArea.value.trim() !== '') {
+    var sep = prompt
+      ? '\n\n— — —\n\n' + prompt + '\n\n'
+      : '\n\n— — —\n\n';
+    writingArea.value += sep;
+  }
+
+  sessionCount++;
+
+  if (prompt) {
+    promptEl.textContent = prompt;
+    promptEl.classList.remove('hidden', 'faded');
+  } else {
+    promptEl.classList.add('hidden');
+  }
+
+  writingStarted = false;
+
+  writingArea.removeAttribute('readonly');
+  writingArea.focus();
+  writingArea.selectionStart = writingArea.selectionEnd = writingArea.value.length;
+
+  rotateBtn.classList.toggle('hidden', !hasPrompt);
+
+  doneControls.classList.add('hidden');
+  ctaBlock.classList.add('hidden');
+  wordCountEl.textContent = '';
+
+  showSession();
+  startTimer(duration);
+}
+
+function endSession() {
+  writingArea.setAttribute('readonly', true);
+  timerEl.textContent = 'done.';
+  rotateBtn.classList.add('hidden');
+  doneControls.classList.remove('hidden');
+  ctaBlock.classList.remove('hidden');
+  var wc = countWords(writingArea.value);
+  wordCountEl.textContent = wc + ' word' + (wc !== 1 ? 's' : '');
+}
+
+rotateBtn.addEventListener('click', function() {
+  if (!activeTrack || activeTrack === 'no-prompt') return;
+  var newPrompt = nextPrompt(activeTrack);
+  currentPrompt = newPrompt;
+  writingArea.value += '\n\n—\n' + newPrompt + '\n\n';
+  writingArea.selectionStart = writingArea.selectionEnd = writingArea.value.length;
+  writingArea.focus();
+  promptEl.textContent = newPrompt;
+  promptEl.classList.remove('faded');
+  writingStarted = false;
+});
+
+writingArea.addEventListener('input', function() {
+  if (!writingStarted && !promptEl.classList.contains('hidden')) {
+    writingStarted = true;
+    promptEl.classList.add('faded');
+  }
+});
+
+document.querySelectorAll('.track-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.track-btn').forEach(function(b) { b.classList.remove('selected'); });
+    btn.classList.add('selected');
+    selectedTrack = btn.dataset.track;
+    updateStartBtn();
+  });
+});
+
+document.querySelectorAll('.duration-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.duration-btn').forEach(function(b) { b.classList.remove('selected'); });
+    btn.classList.add('selected');
+    selectedDuration = parseInt(btn.dataset.minutes);
+    updateStartBtn();
+  });
+});
+
+startBtn.addEventListener('click', function() {
+  if (selectedTrack && selectedDuration) beginSession(selectedTrack, selectedDuration);
+});
+
+noPromptLink.addEventListener('click', function(e) {
+  e.preventDefault();
+  var dur = selectedDuration || 10;
+  if (!selectedDuration) {
+    selectedDuration = 10;
+    var tenBtn = document.querySelector('.duration-btn[data-minutes="10"]');
+    document.querySelectorAll('.duration-btn').forEach(function(b) { b.classList.remove('selected'); });
+    tenBtn.classList.add('selected');
+  }
+  beginSession('no-prompt', dur);
+});
+
+function buildCopyText() {
+  var body = writingArea.value;
+  if (firstPrompt) return firstPrompt + '\n\n' + body;
+  return body;
+}
+
+copyBtn.addEventListener('click', function() {
+  navigator.clipboard.writeText(buildCopyText()).then(function() {
+    var orig = copyBtn.textContent;
+    copyBtn.textContent = 'Copied!';
+    setTimeout(function() { copyBtn.textContent = orig; }, 2000);
+  });
+});
+
+downloadBtn.addEventListener('click', function() {
+  var text = buildCopyText();
+  var blob = new Blob([text], { type: 'text/plain' });
+  var url  = URL.createObjectURL(blob);
+  var a    = document.createElement('a');
+  a.href   = url;
+  a.download = 'freewrite-' + new Date().toISOString().slice(0,10) + '.txt';
+  a.click();
+  URL.revokeObjectURL(url);
+});
+
+newSessionBtn.addEventListener('click', function() {
+  clearInterval(timerInterval);
+  doneControls.classList.add('hidden');
+  ctaBlock.classList.add('hidden');
+  wordCountEl.textContent = '';
+  showSetup();
+});
+
+clearBtn.addEventListener('click', function() {
+  if (clearBtn.dataset.confirm === 'true') {
+    clearTimeout(clearTimeout_);
+    writingArea.value = '';
+    writingArea.removeAttribute('readonly');
+    sessionCount  = 0;
+    firstPrompt   = null;
+    currentPrompt = null;
+    clearBtn.textContent     = 'clear all';
+    clearBtn.dataset.confirm = 'false';
+    clearBtn.classList.remove('confirm-state');
+    doneControls.classList.add('hidden');
+    ctaBlock.classList.add('hidden');
+    wordCountEl.textContent = '';
+    showSetup();
+  } else {
+    clearBtn.textContent     = 'really clear everything?';
+    clearBtn.dataset.confirm = 'true';
+    clearBtn.classList.add('confirm-state');
+    clearTimeout_ = setTimeout(function() {
+      clearBtn.textContent     = 'clear all';
+      clearBtn.dataset.confirm = 'false';
+      clearBtn.classList.remove('confirm-state');
+    }, 3500);
+  }
+});
+</script>
+</body>
+</html>
