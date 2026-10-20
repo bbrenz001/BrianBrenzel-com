@@ -597,13 +597,14 @@ function beginSession(track, duration) {
 }
 
 function endSession() {
-  writingArea.setAttribute('readonly', true);
   timerEl.textContent = 'done.';
   rotateBtn.classList.add('hidden');
   doneControls.classList.remove('hidden');
   ctaBlock.classList.remove('hidden');
   var wc = countWords(writingArea.value);
   wordCountEl.textContent = wc + ' word' + (wc !== 1 ? 's' : '');
+  writingArea.focus();
+  writingArea.selectionStart = writingArea.selectionEnd = writingArea.value.length;
 }
 
 rotateBtn.addEventListener('click', function() {
@@ -622,6 +623,10 @@ writingArea.addEventListener('input', function() {
   if (!writingStarted && !promptEl.classList.contains('hidden')) {
     writingStarted = true;
     promptEl.classList.add('faded');
+  }
+  if (!doneControls.classList.contains('hidden')) {
+    var wc = countWords(writingArea.value);
+    wordCountEl.textContent = wc + ' word' + (wc !== 1 ? 's' : '');
   }
 });
 
