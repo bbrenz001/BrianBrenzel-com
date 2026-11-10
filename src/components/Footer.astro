@@ -7,14 +7,17 @@ const today = new Date();
 	<div class="footer-inner">
 		<div class="footer-brand">
 			<span class="brand-mono">BRIAN BRENZEL</span>
-			<p class="tagline">This site is being rewritten. Check back soon.</p>
+			<p class="tagline">Business automation for small businesses.</p>
 		</div>
 		<div class="footer-links">
-			<a href="/blog">Writing</a>
+			<a href="/services">Services</a>
 			<a href="/about">About</a>
-			<!-- Social links — update hrefs when accounts are confirmed -->
+			<a href="/contact">Contact</a>
 			<a href="https://linkedin.com/in/brianbrenzel" target="_blank" rel="noopener">LinkedIn</a>
-			<a href="https://tiktok.com/@brianbrenzel" target="_blank" rel="noopener">TikTok</a>
+		</div>
+		<div class="footer-legal">
+			<a href="/privacy-policy">Privacy Policy</a>
+			<a href="/terms">Terms of Service</a>
 		</div>
 		<p class="copyright">&copy; {today.getFullYear()} Brian Brenzel</p>
 	</div>
@@ -68,6 +71,23 @@ const today = new Date();
 		transition: color 0.15s ease;
 	}
 	.footer-links a:hover {
+		color: var(--moss);
+		text-decoration: none;
+	}
+
+	.footer-legal {
+		display: flex;
+		gap: 1.5em;
+		flex-wrap: wrap;
+	}
+
+	.footer-legal a {
+		font-size: 0.8em;
+		color: var(--text-muted);
+		text-decoration: none;
+		transition: color 0.15s ease;
+	}
+	.footer-legal a:hover {
 		color: var(--moss);
 		text-decoration: none;
 	}

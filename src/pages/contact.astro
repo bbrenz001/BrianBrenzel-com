@@ -3,12 +3,15 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import { SITE_TITLE } from '../consts';
+
+// Replace with your actual n8n webhook URL
+const N8N_WEBHOOK_URL = 'https://n8n.brianbrenzel.com/webhook/contact-form';
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
-		<BaseHead title={`Contact · ${SITE_TITLE}`} description="This site is being rewritten. Check back soon." />
+		<BaseHead title={`Contact · ${SITE_TITLE}`} description="Get in touch about automation for your business." />
 	</head>
 	<body>
 		<Header />
@@ -17,51 +20,76 @@ import { SITE_TITLE } from '../consts';
 				<p class="page-label">// CONTACT</p>
 				<h1>Let's talk.</h1>
 				<p class="page-desc">
-					This site is being rewritten. Send me a note anyway, I read every message myself
-					and reply directly.
+					Tell me what you're doing manually. If it's repetitive, there's probably a way
+					to automate it. I read every message myself and reply within 24 hours.
 				</p>
 			</div>
 
 			<div class="contact-grid">
 				<div class="contact-form-wrap">
-					<form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="contact-form">
-						<input type="hidden" name="form-name" value="contact" />
-						<p style="display:none;">
-							<label>Don't fill this out: <input name="bot-field" /></label>
-						</p>
+					<form id="contact-form" class="contact-form" novalidate>
+						<input type="hidden" name="bot-field" id="bot-field" />
 
 						<div class="field-group">
 							<label for="name">Name</label>
-							<input type="text" id="name" name="name" placeholder="Your name" required />
+							<input type="text" id="name" name="name" placeholder="Your name" required autocomplete="name" />
 						</div>
 
 						<div class="field-group">
 							<label for="email">Email</label>
-							<input type="email" id="email" name="email" placeholder="your@email.com" required />
+							<input type="email" id="email" name="email" placeholder="your@email.com" required autocomplete="email" />
 						</div>
 
 						<div class="field-group">
-							<label for="message">Message</label>
-							<textarea id="message" name="message" rows="5" placeholder="What's going on?" required></textarea>
+							<label for="phone">Phone <span class="optional">(optional)</span></label>
+							<input type="tel" id="phone" name="phone" placeholder="(555) 555-5555" autocomplete="tel" />
 						</div>
 
-						<button type="submit" class="btn btn-primary">Send it</button>
+						<div class="field-group">
+							<label for="business">Business type <span class="optional">(optional)</span></label>
+							<input type="text" id="business" name="business" placeholder="e.g. Med spa, salon, clinic" />
+						</div>
+
+						<div class="field-group">
+							<label for="message">What are you doing manually that you wish was automated?</label>
+							<textarea id="message" name="message" rows="5" placeholder="Describe the process. Even rough is fine." required></textarea>
+						</div>
+
+						<div class="form-footer">
+							<button type="submit" class="btn btn-primary" id="submit-btn">
+								<span id="btn-text">Send it</span>
+								<span id="btn-loading" style="display:none;">Sending...</span>
+							</button>
+						</div>
 					</form>
+
+					<div id="form-success" class="form-success" style="display:none;">
+						<p class="success-icon">✓</p>
+						<h3>Got it.</h3>
+						<p>I'll be in touch within 24 hours.</p>
+					</div>
+
+					<div id="form-error" class="form-error" style="display:none;">
+						<p>Something went wrong. Email me directly at <a href="mailto:brian@brianbrenzel.com">brian@brianbrenzel.com</a>.</p>
+					</div>
 				</div>
 
 				<div class="contact-aside">
 					<div class="aside-block">
 						<p class="aside-label">// RESPONSE TIME</p>
-						<p>I check email once a day. You'll hear back within 24 hours, usually faster.</p>
+						<p>I check messages daily. You'll hear back within 24 hours, usually faster.</p>
 					</div>
 					<div class="aside-block">
-						<p class="aside-label">// NOTE</p>
-						<p>This site is being rewritten. Check back soon.</p>
+						<p class="aside-label">// WHAT HAPPENS NEXT</p>
+						<p>I'll reply, ask a few questions, and we'll schedule a free scoping call if it makes sense to move forward.</p>
 					</div>
 					<div class="aside-block">
 						<p class="aside-label">// EMAIL</p>
-						<!-- Update this once Namecheap forwarding is set up -->
 						<a href="mailto:brian@brianbrenzel.com">brian@brianbrenzel.com</a>
+					</div>
+					<div class="aside-block">
+						<p class="aside-label">// LOCATION</p>
+						<p>California</p>
 					</div>
 				</div>
 			</div>
@@ -69,6 +97,61 @@ import { SITE_TITLE } from '../consts';
 		<Footer />
 	</body>
 </html>
+
+<script define:vars={{ N8N_WEBHOOK_URL }}>
+	const form = document.getElementById('contact-form');
+	const submitBtn = document.getElementById('submit-btn');
+	const btnText = document.getElementById('btn-text');
+	const btnLoading = document.getElementById('btn-loading');
+	const successEl = document.getElementById('form-success');
+	const errorEl = document.getElementById('form-error');
+
+	form.addEventListener('submit', async (e) => {
+		e.preventDefault();
+
+		// Honeypot check
+		if (document.getElementById('bot-field').value) return;
+
+		// Basic validation
+		const name = form.querySelector('#name').value.trim();
+		const email = form.querySelector('#email').value.trim();
+		const message = form.querySelector('#message').value.trim();
+		if (!name || !email || !message) return;
+
+		// Loading state
+		submitBtn.disabled = true;
+		btnText.style.display = 'none';
+		btnLoading.style.display = 'inline';
+
+		const payload = {
+			name,
+			email,
+			phone: form.querySelector('#phone').value.trim(),
+			business: form.querySelector('#business').value.trim(),
+			message,
+			source: 'brianbrenzel.com/contact',
+			submitted_at: new Date().toISOString(),
+		};
+
+		try {
+			const res = await fetch(N8N_WEBHOOK_URL, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(payload),
+			});
+
+			if (res.ok) {
+				form.style.display = 'none';
+				successEl.style.display = 'block';
+			} else {
+				throw new Error('Non-OK response');
+			}
+		} catch {
+			form.style.display = 'none';
+			errorEl.style.display = 'block';
+		}
+	});
+</script>
 
 <style>
 	.page-header {
@@ -104,7 +187,6 @@ import { SITE_TITLE } from '../consts';
 	}
 
 	/* ── Form ──────────────────────────────────── */
-
 	.contact-form {
 		display: flex;
 		flex-direction: column;
@@ -121,6 +203,12 @@ import { SITE_TITLE } from '../consts';
 		font-size: 0.85em;
 		font-weight: 600;
 		color: var(--text-muted);
+	}
+
+	.optional {
+		font-weight: 400;
+		color: var(--text-muted);
+		opacity: 0.7;
 	}
 
 	.field-group input,
@@ -149,24 +237,71 @@ import { SITE_TITLE } from '../consts';
 		line-height: 1.6;
 	}
 
-	.btn-primary {
-		align-self: flex-start;
-		background-color: var(--red);
-		color: #FFFFFF;
+	.form-footer {
+		padding-top: 0.25em;
+	}
+
+	.btn {
+		display: inline-block;
 		padding: 0.7em 1.8em;
+		border-radius: 4px;
 		font-size: 0.95em;
 		font-weight: 600;
 		border: none;
-		border-radius: 4px;
 		cursor: pointer;
-		transition: background-color 0.15s ease;
+		text-decoration: none;
+		transition: all 0.15s ease;
 	}
-	.btn-primary:hover {
-		background-color: var(--red-dark);
+
+	.btn-primary {
+		background-color: var(--red);
+		color: #FFFFFF;
+	}
+	.btn-primary:hover:not(:disabled) { background-color: var(--red-dark); }
+	.btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+
+	/* ── Success / error states ────────────────── */
+	.form-success {
+		padding: 2em 0;
+		text-align: left;
+	}
+
+	.success-icon {
+		font-size: 1.5em;
+		color: var(--moss);
+		margin: 0 0 0.5em 0;
+	}
+
+	.form-success h3 {
+		font-size: 1.3em;
+		margin: 0 0 0.4em 0;
+		color: var(--text);
+	}
+
+	.form-success p {
+		font-size: 0.95em;
+		color: var(--silver);
+		margin: 0;
+	}
+
+	.form-error {
+		padding: 1.5em;
+		background-color: var(--bg-surface);
+		border: 1px solid var(--bg-border);
+		border-radius: 4px;
+	}
+
+	.form-error p {
+		font-size: 0.95em;
+		color: var(--silver);
+		margin: 0;
+	}
+
+	.form-error a {
+		color: var(--moss);
 	}
 
 	/* ── Aside ─────────────────────────────────── */
-
 	.contact-aside {
 		display: flex;
 		flex-direction: column;
@@ -198,8 +333,6 @@ import { SITE_TITLE } from '../consts';
 		font-size: 0.9em;
 		color: var(--moss);
 	}
-
-	/* ── Responsive ────────────────────────────── */
 
 	@media (max-width: 720px) {
 		.contact-grid {

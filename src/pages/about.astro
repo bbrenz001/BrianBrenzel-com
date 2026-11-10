@@ -8,7 +8,7 @@ import { SITE_TITLE } from '../consts';
 <!doctype html>
 <html lang="en">
 	<head>
-		<BaseHead title={`About · ${SITE_TITLE}`} description="This site is being rewritten. Check back soon." />
+		<BaseHead title={`About · ${SITE_TITLE}`} description="Brian Brenzel builds workflow automations for small businesses." />
 	</head>
 	<body>
 		<Header />
@@ -20,13 +20,40 @@ import { SITE_TITLE } from '../consts';
 
 					<div class="prose">
 						<p>
-							This site is being rewritten. Check back soon.
+							I'm a freelance automation developer. I build the systems that handle
+							the repetitive work your business runs on: lead follow-up, CRM logging,
+							appointment reminders. You and your team get to focus on the work that
+							actually requires a human.
+						</p>
+						<p>
+							I work primarily with small businesses: med spas, service businesses,
+							local operators who are good at what they do but losing time and revenue
+							to manual processes. Usually the gap isn't that big. A few well-built
+							automations and the leaks stop.
+						</p>
+						<p>
+							I'm not an agency. You work with me directly, start to finish.
 						</p>
 					</div>
 
 					<div class="about-cta">
-						<a href="/blog" class="btn btn-primary">Read the writing</a>
-						<a href="/contact" class="btn btn-secondary">Get in touch</a>
+						<a href="/contact" class="btn btn-primary">Get in touch</a>
+						<a href="/services" class="btn btn-secondary">What I build</a>
+					</div>
+				</div>
+
+				<div class="about-aside">
+					<div class="aside-block">
+						<p class="aside-label">// LOCATION</p>
+						<p>California</p>
+					</div>
+					<div class="aside-block">
+						<p class="aside-label">// FOCUS</p>
+						<p>Small business automation. Lead workflows, CRM integrations, appointment pipelines.</p>
+					</div>
+					<div class="aside-block">
+						<p class="aside-label">// EMAIL</p>
+						<a href="mailto:brian@brianbrenzel.com">brian@brianbrenzel.com</a>
 					</div>
 				</div>
 			</div>
@@ -57,7 +84,7 @@ import { SITE_TITLE } from '../consts';
 	}
 
 	.prose p {
-		color: var(--text);
+		color: var(--silver);
 		font-size: 1em;
 		line-height: 1.8;
 		margin-bottom: 1.5em;
@@ -93,11 +120,7 @@ import { SITE_TITLE } from '../consts';
 		color: var(--moss);
 		border: 1px solid var(--moss);
 	}
-	.btn-secondary:hover {
-		background-color: var(--moss-glow);
-	}
-
-	/* ── Aside ─────────────────────────────────── */
+	.btn-secondary:hover { background-color: var(--moss-glow); }
 
 	.about-aside {
 		display: flex;
@@ -126,7 +149,10 @@ import { SITE_TITLE } from '../consts';
 		line-height: 1.6;
 	}
 
-	/* ── Responsive ────────────────────────────── */
+	.aside-block a {
+		font-size: 0.88em;
+		color: var(--moss);
+	}
 
 	@media (max-width: 720px) {
 		.about-grid {

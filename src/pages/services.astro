@@ -1,0 +1,295 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_TITLE } from '../consts';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={`Services · ${SITE_TITLE}`} description="Automation builds for small businesses. Lead follow-up, CRM logging, appointment workflows, and custom integrations." />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<div class="page-header">
+				<p class="page-label">// SERVICES</p>
+				<h1>What I build</h1>
+				<p class="page-desc">
+					I build workflow automations for small businesses. They run in the background
+					and handle the repetitive stuff so your team doesn't have to.
+				</p>
+			</div>
+
+			<section class="services">
+				<div class="service-card">
+					<p class="service-label">// 01</p>
+					<h2>Lead follow-up automation</h2>
+					<p>
+						When a new lead comes in through your website, booking form, or ad platform, an automated
+						message goes out within minutes. No manual work required. The lead hears from you while
+						they're still thinking about you.
+					</p>
+					<ul>
+						<li>Instant SMS or email reply on new inquiry</li>
+						<li>Follow-up sequence if they don't respond</li>
+						<li>Notification to you or your front desk</li>
+					</ul>
+				</div>
+
+				<div class="service-card">
+					<p class="service-label">// 02</p>
+					<h2>CRM and booking log automation</h2>
+					<p>
+						New bookings, cancellations, and client notes flow into your CRM automatically.
+						No copy-pasting, no forgetting to log. Your records stay clean without anyone managing them.
+					</p>
+					<ul>
+						<li>Booking software to CRM sync</li>
+						<li>Contact creation and updates</li>
+						<li>Deal or pipeline stage updates on key events</li>
+					</ul>
+				</div>
+
+				<div class="service-card">
+					<p class="service-label">// 03</p>
+					<h2>Appointment reminders and no-show recovery</h2>
+					<p>
+						Automated reminders before appointments reduce no-shows. When someone cancels or ghosts,
+						a follow-up message goes out automatically to reschedule. You recover revenue without
+						chasing people yourself.
+					</p>
+					<ul>
+						<li>24-hour and 1-hour appointment reminders</li>
+						<li>No-show and cancellation follow-up</li>
+						<li>Rescheduling link or reply option</li>
+					</ul>
+				</div>
+
+				<div class="service-card">
+					<p class="service-label">// 04</p>
+					<h2>Custom integrations</h2>
+					<p>
+						Have two tools that don't talk to each other? Or a process that's mostly manual because
+						there's no off-the-shelf solution? I'll build the connection. Most integrations are
+						simpler than they look.
+					</p>
+					<ul>
+						<li>Zapier replacement builds (usually faster and cheaper to run)</li>
+						<li>Form-to-spreadsheet or form-to-CRM pipelines</li>
+						<li>Internal notifications and Slack alerts</li>
+					</ul>
+				</div>
+			</section>
+
+			<section class="process">
+				<p class="page-label">// PROCESS</p>
+				<div class="process-steps">
+					<div class="process-step">
+						<span class="step-num">01</span>
+						<div>
+							<h3>Scoping call</h3>
+							<p>We talk through what you're doing manually, what tools you're using, and what a working
+							solution looks like. Free, no obligation.</p>
+						</div>
+					</div>
+					<div class="process-step">
+						<span class="step-num">02</span>
+						<div>
+							<h3>Build</h3>
+							<p>I build it, test it against real scenarios, and document how it works. Most builds
+							take less than a week.</p>
+						</div>
+					</div>
+					<div class="process-step">
+						<span class="step-num">03</span>
+						<div>
+							<h3>Handoff</h3>
+							<p>You get a walkthrough, a Loom recording, and ongoing support if anything breaks
+							or needs adjustment.</p>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<section class="cta-block">
+				<div class="cta-inner">
+					<p class="page-label">// GET STARTED</p>
+					<h2>Tell me what you're doing by hand.</h2>
+					<p>If it happens repeatedly and follows a pattern, there's probably a way to automate it.
+					Reach out and we'll figure out if it's worth building.</p>
+					<a href="/contact" class="btn btn-primary">Get in touch</a>
+				</div>
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+	.page-header {
+		margin-bottom: 3em;
+	}
+
+	.page-label {
+		font-family: ui-monospace, 'Cascadia Code', 'Fira Mono', monospace;
+		font-size: 0.78em;
+		letter-spacing: 0.1em;
+		color: var(--moss);
+		margin: 0 0 0.75em 0;
+	}
+
+	.page-header h1 {
+		font-size: 2.4em;
+		margin: 0 0 0.5em 0;
+	}
+
+	.page-desc {
+		color: var(--silver);
+		font-size: 0.95em;
+		max-width: 560px;
+		margin: 0;
+		line-height: 1.75;
+	}
+
+	/* ── Service cards ─────────────────────────── */
+	.services {
+		display: flex;
+		flex-direction: column;
+		gap: 0;
+		margin-bottom: 4em;
+	}
+
+	.service-card {
+		border-top: 1px solid var(--bg-border);
+		padding: 2em 0;
+	}
+	.service-card:last-child {
+		border-bottom: 1px solid var(--bg-border);
+	}
+
+	.service-label {
+		font-family: ui-monospace, 'Cascadia Code', 'Fira Mono', monospace;
+		font-size: 0.75em;
+		letter-spacing: 0.1em;
+		color: var(--moss);
+		margin: 0 0 0.6em 0;
+	}
+
+	.service-card h2 {
+		font-size: 1.25em;
+		margin: 0 0 0.6em 0;
+		color: var(--text);
+	}
+
+	.service-card > p {
+		font-size: 0.95em;
+		color: var(--silver);
+		max-width: 620px;
+		margin: 0 0 1em 0;
+		line-height: 1.7;
+	}
+
+	.service-card ul {
+		margin: 0;
+		padding-left: 1.25em;
+		display: flex;
+		flex-direction: column;
+		gap: 0.3em;
+	}
+
+	.service-card li {
+		font-size: 0.9em;
+		color: var(--silver-light);
+		line-height: 1.6;
+	}
+
+	/* ── Process ───────────────────────────────── */
+	.process {
+		margin-bottom: 4em;
+	}
+
+	.process-steps {
+		display: flex;
+		flex-direction: column;
+		gap: 1.5em;
+	}
+
+	.process-step {
+		display: flex;
+		gap: 1.5em;
+		align-items: flex-start;
+	}
+
+	.step-num {
+		font-family: ui-monospace, 'Cascadia Code', 'Fira Mono', monospace;
+		font-size: 0.75em;
+		color: var(--moss);
+		letter-spacing: 0.1em;
+		padding-top: 0.2em;
+		flex-shrink: 0;
+		width: 2em;
+	}
+
+	.process-step h3 {
+		font-size: 1em;
+		margin: 0 0 0.35em 0;
+		color: var(--text);
+	}
+
+	.process-step p {
+		font-size: 0.9em;
+		color: var(--silver);
+		margin: 0;
+		line-height: 1.65;
+	}
+
+	/* ── CTA ───────────────────────────────────── */
+	.cta-block {
+		margin-bottom: 2em;
+	}
+
+	.cta-inner {
+		background-color: var(--bg-surface);
+		border: 1px solid var(--bg-border);
+		border-radius: 8px;
+		padding: 2.5em;
+	}
+
+	.cta-inner h2 {
+		font-size: 1.5em;
+		margin: 0 0 0.6em 0;
+		color: var(--text);
+	}
+
+	.cta-inner p {
+		font-size: 0.95em;
+		color: var(--silver);
+		max-width: 480px;
+		margin: 0 0 1.5em 0;
+		line-height: 1.7;
+	}
+
+	.btn {
+		display: inline-block;
+		padding: 0.65em 1.4em;
+		border-radius: 4px;
+		font-size: 0.95em;
+		font-weight: 600;
+		cursor: pointer;
+		text-decoration: none;
+		transition: all 0.15s ease;
+	}
+	.btn:hover { text-decoration: none; }
+
+	.btn-primary {
+		background-color: var(--red);
+		color: #FFFFFF;
+	}
+	.btn-primary:hover { background-color: var(--red-dark); }
+
+	@media (max-width: 720px) {
+		.cta-inner { padding: 1.5em; }
+	}
+</style>

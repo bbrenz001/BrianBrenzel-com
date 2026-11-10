@@ -1,15 +1,8 @@
 ---
-import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
-import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
-import MailerLiteForm from '../components/MailerLiteForm.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
-
-const posts = (await getCollection('blog'))
-	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-	.slice(0, 3);
 ---
 
 <!doctype html>
@@ -20,56 +13,72 @@ const posts = (await getCollection('blog'))
 	<body>
 		<Header />
 
-		<!-- Hero -->
 		<section class="hero">
 			<div class="hero-inner">
-				<p class="hero-label">// SITE BEING REBUILT</p>
+				<p class="hero-label">// AUTOMATION FOR SMALL BUSINESSES</p>
 				<h1 class="hero-headline">
-					This site is being rewritten.
+					Stop doing by hand what a system can do for you.
 				</h1>
 				<p class="hero-body">
-					I'm Brian Brenzel. Check back soon.
+					I build automations that follow up with leads, log activity to your CRM, and send
+					the right message at the right time. You close more business. You stop falling through cracks.
 				</p>
+				<div class="hero-ctas">
+					<a href="/contact" class="btn btn-primary">Get in touch</a>
+					<a href="/services" class="btn btn-secondary">What I build</a>
+				</div>
 			</div>
 			<div class="hero-horizon"></div>
 		</section>
 
 		<main>
 
-			<!-- Recent Posts -->
-			{posts.length > 0 && (
-				<section class="recent-posts">
-					<h2 class="section-title">Latest Writing</h2>
-					<ul class="post-list">
-						{posts.map(post => (
-							<li class="post-item">
-								<a href={`/blog/${post.id}/`} class="post-link">
-									<div class="post-meta">
-										<span class="post-date">
-											<FormattedDate date={post.data.pubDate} />
-										</span>
-									</div>
-									<h3 class="post-title">{post.data.title}</h3>
-									{post.data.description && (
-										<p class="post-excerpt">{post.data.description}</p>
-									)}
-								</a>
-							</li>
-						))}
-					</ul>
-					<a href="/blog" class="all-posts-link">All posts →</a>
-				</section>
-			)}
+			<section class="how-it-works">
+				<p class="section-label">// HOW IT WORKS</p>
+				<div class="steps">
+					<div class="step">
+						<span class="step-num">01</span>
+						<h3>Tell me what's slipping</h3>
+						<p>Leads not followed up. No-shows not rescheduled. Bookings not logged. Pick the problem that costs you the most.</p>
+					</div>
+					<div class="step">
+						<span class="step-num">02</span>
+						<h3>I build the workflow</h3>
+						<p>I connect your existing tools and build the automation. Most builds take a week or less.</p>
+					</div>
+					<div class="step">
+						<span class="step-num">03</span>
+						<h3>It runs without you</h3>
+						<p>You get a walkthrough, a loom, and a system that works while you're with clients.</p>
+					</div>
+				</div>
+			</section>
 
-			<!-- Newsletter -->
-			<section class="newsletter" id="newsletter">
-				<div class="newsletter-inner">
-					<p class="newsletter-label">// NEWSLETTER</p>
-					<h2 class="newsletter-title">One email when something's worth reading.</h2>
-					<p class="newsletter-body">
-						This site is being rewritten. New content coming soon.
-					</p>
-					<MailerLiteForm />
+			<section class="services-preview">
+				<p class="section-label">// WHAT I BUILD</p>
+				<ul class="service-list">
+					<li class="service-item">
+						<h3>Lead follow-up</h3>
+						<p>New inquiry comes in, automated message goes out within minutes. No leads sit cold.</p>
+					</li>
+					<li class="service-item">
+						<h3>CRM logging</h3>
+						<p>Bookings, cancellations, and notes flow into your CRM automatically. No manual data entry.</p>
+					</li>
+					<li class="service-item">
+						<h3>Appointment workflows</h3>
+						<p>Reminders, confirmations, and no-show follow-ups go out automatically. You don't touch it.</p>
+					</li>
+				</ul>
+				<a href="/services" class="all-link">See all services →</a>
+			</section>
+
+			<section class="cta-block">
+				<div class="cta-inner">
+					<p class="section-label">// LET'S TALK</p>
+					<h2>Tell me what you're doing by hand.</h2>
+					<p>If it's repetitive and rule-based, there's probably a way to automate it. No commitment to reach out.</p>
+					<a href="/contact" class="btn btn-primary">Get in touch</a>
 				</div>
 			</section>
 
@@ -105,19 +114,8 @@ const posts = (await getCollection('blog'))
 	.hero-headline {
 		font-size: 2.8em;
 		line-height: 1.15;
-		margin: 0 0 1em 0;
+		margin: 0 0 0.75em 0;
 		color: var(--text);
-	}
-
-	.accent-moss { color: var(--moss); }
-
-	.hero-pain {
-		font-size: 1.1em;
-		font-weight: 600;
-		color: var(--text);
-		max-width: 580px;
-		margin: 0 0 1em 0;
-		line-height: 1.6;
 	}
 
 	.hero-body {
@@ -128,7 +126,13 @@ const posts = (await getCollection('blog'))
 		line-height: 1.75;
 	}
 
-.hero-horizon {
+	.hero-ctas {
+		display: flex;
+		gap: 1em;
+		flex-wrap: wrap;
+	}
+
+	.hero-horizon {
 		height: 2px;
 		background: var(--horizon);
 		max-width: 760px;
@@ -136,110 +140,42 @@ const posts = (await getCollection('blog'))
 		opacity: 0.9;
 	}
 
-	/* ── Sections ──────────────────────────────── */
-	.section-title {
-		font-size: 1em;
+	/* ── Buttons ───────────────────────────────── */
+	.btn {
+		display: inline-block;
+		padding: 0.65em 1.4em;
+		border-radius: 4px;
+		font-size: 0.95em;
+		font-weight: 600;
+		cursor: pointer;
+		text-decoration: none;
+		transition: all 0.15s ease;
+	}
+	.btn:hover { text-decoration: none; }
+
+	.btn-primary {
+		background-color: var(--red);
+		color: #FFFFFF;
+	}
+	.btn-primary:hover { background-color: var(--red-dark); }
+
+	.btn-secondary {
+		background-color: transparent;
+		color: var(--moss);
+		border: 1px solid var(--moss);
+	}
+	.btn-secondary:hover { background-color: var(--moss-glow); }
+
+	/* ── Shared ────────────────────────────────── */
+	.section-label {
 		font-family: ui-monospace, 'Cascadia Code', 'Fira Mono', monospace;
+		font-size: 0.78em;
 		letter-spacing: 0.1em;
-		text-transform: uppercase;
-		color: var(--text-muted);
+		color: var(--moss);
 		margin: 0 0 1.5em 0;
 	}
 
-	/* ── Services ──────────────────────────────── */
-	.services {
-		margin-bottom: 4em;
-	}
-
-	.services-list {
-		list-style: none;
-		margin: 0;
-		padding: 0;
-		display: grid;
-		grid-template-columns: repeat(3, 1fr);
-		gap: 1.5em;
-	}
-
-	.service-item {
-		background-color: var(--bg-surface);
-		border: 1px solid var(--bg-border);
-		border-radius: 8px;
-		padding: 1.5em;
-	}
-
-	.service-title {
-		font-size: 1.05em;
-		margin: 0 0 0.5em 0;
-	}
-
-	.service-desc {
-		font-size: 0.9em;
-		color: var(--silver);
-		margin: 0;
-		line-height: 1.6;
-	}
-
-	/* ── Post list ─────────────────────────────── */
-	.recent-posts {
-		margin-bottom: 4em;
-	}
-
-	.post-list {
-		list-style: none;
-		margin: 0;
-		padding: 0;
-		display: flex;
-		flex-direction: column;
-		gap: 0;
-	}
-
-	.post-item {
-		border-top: 1px solid var(--bg-border);
-	}
-	.post-item:last-child {
-		border-bottom: 1px solid var(--bg-border);
-	}
-
-	.post-link {
-		display: block;
-		padding: 1.4em 0;
-		text-decoration: none;
-		transition: background-color 0.15s ease;
-	}
-	.post-link:hover {
-		text-decoration: none;
-	}
-	.post-link:hover .post-title {
-		color: var(--moss);
-	}
-
-	.post-meta {
-		margin-bottom: 0.3em;
-	}
-
-	.post-date {
-		font-family: ui-monospace, 'Cascadia Code', 'Fira Mono', monospace;
-		font-size: 0.78em;
-		letter-spacing: 0.05em;
-		color: var(--moss);
-	}
-
-	.post-title {
-		font-size: 1.15em;
-		font-weight: 600;
-		color: var(--text);
-		margin: 0 0 0.4em 0;
-		transition: color 0.15s ease;
-	}
-
-	.post-excerpt {
-		font-size: 0.92em;
-		color: var(--silver);
-		margin: 0;
-		line-height: 1.6;
-	}
-
-	.all-posts-link {
+	.all-link {
 		display: inline-block;
 		margin-top: 1.5em;
 		font-size: 0.9em;
@@ -247,49 +183,109 @@ const posts = (await getCollection('blog'))
 		text-decoration: none;
 		font-weight: 600;
 	}
-	.all-posts-link:hover {
-		color: var(--moss-dark);
-		text-decoration: underline;
+	.all-link:hover { text-decoration: underline; }
+
+	/* ── How it works ──────────────────────────── */
+	.how-it-works {
+		margin-bottom: 4em;
 	}
 
-	/* ── Newsletter ────────────────────────────── */
-	.newsletter {
-		background-color: var(--bg-surface);
-		border: 1px solid var(--bg-border);
-		border-radius: 8px;
-		margin-bottom: 2em;
+	.steps {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 2em;
 	}
 
-	.newsletter-inner {
-		padding: 2.5em;
+	.step {
+		border-left: 2px solid var(--bg-border);
+		padding-left: 1.25em;
 	}
 
-	.newsletter-label {
+	.step-num {
 		font-family: ui-monospace, 'Cascadia Code', 'Fira Mono', monospace;
-		font-size: 0.78em;
-		letter-spacing: 0.1em;
+		font-size: 0.75em;
 		color: var(--moss);
-		margin: 0 0 0.75em 0;
+		letter-spacing: 0.1em;
+		display: block;
+		margin-bottom: 0.6em;
 	}
 
-	.newsletter-title {
-		font-size: 1.5em;
-		margin: 0 0 0.75em 0;
+	.step h3 {
+		font-size: 1em;
+		margin: 0 0 0.5em 0;
 		color: var(--text);
 	}
 
-	.newsletter-body {
+	.step p {
+		font-size: 0.9em;
+		color: var(--silver);
+		margin: 0;
+		line-height: 1.65;
+	}
+
+	/* ── Services preview ──────────────────────── */
+	.services-preview {
+		margin-bottom: 4em;
+	}
+
+	.service-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.service-item {
+		border-top: 1px solid var(--bg-border);
+		padding: 1.4em 0;
+	}
+	.service-item:last-child {
+		border-bottom: 1px solid var(--bg-border);
+	}
+
+	.service-item h3 {
+		font-size: 1.05em;
+		margin: 0 0 0.35em 0;
+		color: var(--text);
+	}
+
+	.service-item p {
+		font-size: 0.92em;
+		color: var(--silver);
+		margin: 0;
+		line-height: 1.6;
+	}
+
+	/* ── CTA block ─────────────────────────────── */
+	.cta-block {
+		margin-bottom: 2em;
+	}
+
+	.cta-inner {
+		background-color: var(--bg-surface);
+		border: 1px solid var(--bg-border);
+		border-radius: 8px;
+		padding: 2.5em;
+	}
+
+	.cta-inner h2 {
+		font-size: 1.6em;
+		margin: 0 0 0.6em 0;
+		color: var(--text);
+	}
+
+	.cta-inner p {
 		font-size: 0.95em;
 		color: var(--silver);
 		max-width: 480px;
 		margin: 0 0 1.5em 0;
+		line-height: 1.7;
 	}
 
-/* ── Responsive ────────────────────────────── */
+	/* ── Responsive ────────────────────────────── */
 	@media (max-width: 720px) {
 		.hero { padding: 3em 1em 0; }
 		.hero-headline { font-size: 2em; }
-		.newsletter-inner { padding: 1.5em; }
-		.services-list { grid-template-columns: 1fr; }
+		.steps { grid-template-columns: 1fr; }
+		.cta-inner { padding: 1.5em; }
 	}
 </style>
