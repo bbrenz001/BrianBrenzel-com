@@ -43,6 +43,7 @@ const N8N_WEBHOOK_URL = 'https://n8n.brianbrenzel.com/webhook/958ad9f7-2180-44c6
 						<div class="field-group">
 							<label for="phone">Phone <span class="optional">(optional)</span></label>
 							<input type="tel" id="phone" name="phone" placeholder="(555) 555-5555" autocomplete="tel" />
+							<p class="field-note">By providing your phone number, you agree to receive SMS messages regarding your inquiry. Reply STOP to unsubscribe.</p>
 						</div>
 
 						<div class="field-group">
@@ -209,6 +210,13 @@ const N8N_WEBHOOK_URL = 'https://n8n.brianbrenzel.com/webhook/958ad9f7-2180-44c6
 		font-weight: 400;
 		color: var(--text-muted);
 		opacity: 0.7;
+	}
+
+	.field-note {
+		font-size: 0.78em;
+		color: var(--text-muted);
+		margin: 0.3em 0 0 0;
+		line-height: 1.5;
 	}
 
 	.field-group input,
