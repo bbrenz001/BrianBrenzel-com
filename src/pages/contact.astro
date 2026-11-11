@@ -43,7 +43,13 @@ const N8N_WEBHOOK_URL = 'https://n8n.brianbrenzel.com/webhook/958ad9f7-2180-44c6
 						<div class="field-group">
 							<label for="phone">Phone <span class="optional">(optional)</span></label>
 							<input type="tel" id="phone" name="phone" placeholder="(555) 555-5555" autocomplete="tel" />
-							<p class="field-note">By providing your phone number, you agree to receive SMS messages from Brian Brenzel regarding your inquiry. Message frequency varies. Message &amp; data rates may apply. Reply STOP to opt out, HELP for help. View our <a href="/privacy-policy">Privacy Policy</a>.</p>
+						</div>
+
+						<div class="field-group sms-consent">
+							<label class="checkbox-label">
+								<input type="checkbox" id="sms-consent" name="sms_consent" value="yes" />
+								<span>By checking this box, you consent to receive transactional SMS messages from Brian Brenzel regarding your inquiry. Reply STOP to opt out. Reply HELP for help. Message &amp; data rates may apply. Message frequency may vary. View our <a href="/terms">Terms of Service</a> and <a href="/privacy-policy">Privacy Policy</a>.</span>
+							</label>
 						</div>
 
 						<div class="field-group">
@@ -212,14 +218,32 @@ const N8N_WEBHOOK_URL = 'https://n8n.brianbrenzel.com/webhook/958ad9f7-2180-44c6
 		opacity: 0.7;
 	}
 
-	.field-note {
-		font-size: 0.78em;
-		color: var(--text-muted);
-		margin: 0.3em 0 0 0;
-		line-height: 1.5;
+	.sms-consent {
+		margin-top: 0.25em;
 	}
 
-	.field-note a {
+	.checkbox-label {
+		display: flex;
+		gap: 0.75em;
+		align-items: flex-start;
+		cursor: pointer;
+		font-weight: 400;
+	}
+
+	.checkbox-label input[type="checkbox"] {
+		width: auto;
+		margin-top: 0.2em;
+		flex-shrink: 0;
+		accent-color: var(--moss);
+	}
+
+	.checkbox-label span {
+		font-size: 0.78em;
+		color: var(--text-muted);
+		line-height: 1.6;
+	}
+
+	.checkbox-label a {
 		color: var(--moss);
 	}
 
